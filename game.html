@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="./assets/img/logo.svg">
+<title>QuizMania - Snakes & Ladders</title>
+<meta name="description" content="QuizMania is a playful, responsive game site with a fast canvas runner.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css" />
+</head><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMania — 3D Quiz Game</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 3D Quiz Game Specific Styles */
+        .quiz-container {
+            perspective: 1000px;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        
+        .quiz-card {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        
+        .quiz-front, .quiz-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+        }
+        
+        .quiz-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #a777e3, #6e8efb);
+        }
+        
+        .flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .question-text {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .option {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .selected {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .correct {
+            background: rgba(76, 175, 80, 0.6);
+        }
+        
+        .incorrect {
+            background: rgba(244, 67, 54, 0.6);
+        }
+        
+        .quiz-controls {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        
+        .score-display {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .btn-quiz {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #6e8efb;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-quiz:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .btn-quiz:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .result-text {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: white;
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+        
+        .category-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .category {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .category i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .game-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #6e8efb;
+        }
+        
+        @media (max-width: 768px) {
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .quiz-card {
+                height: 500px;
+            }
+            
+            .category-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .category-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Confetti animation */
+        @keyframes confettiFall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(500px) rotate(360deg); opacity: 0; }
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+            z-index: 1000;
+            animation: confettiFall 2s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a class="logo" href="index.html" aria-label="Home"><img src="assets/img/logo.svg" alt="QuizMania icon"><span>QuizMania</span></a>
+            <div class="menu" data-nav-menu>
+                <a href="index.html">Home</a>
+                <a href="game.html" style='opacity:1;font-weight:800'>Play Game</a>
+                <a href="leaderboard.html">Leaderboard</a>
+                <a href="about.html">About</a>
+                <a href="blog.html">Blog</a>
+                <a href="faq.html">FAQ</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+            <div class="right"><a class="btn ghost" data-nav-toggle>Menu</a><a class="btn" href="game.html">Play</a></div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1>QuizMania — 3D Quiz Challenge</h1>
+            <p>Test your knowledge with our immersive 3D quiz experience. Select a category, answer questions, and see how you rank!</p>
+            <div class="kudos">
+                <span class="pill">3D Effects</span>
+                <span class="pill">Multiple Choice</span>
+                <span class="pill">Score Tracking</span>
+            </div>
+        </div>
+    </header>
+    
+    <section class="section container">
+        <div class="card" style="text-align:center">
+            <h2 class="game-title">Select a Quiz Category</h2>
+            
+            <div class="category-selector" id="category-selector">
+                <div class="category" data-category="science">
+                    <i class="fas fa-atom"></i>
+                    <h3>Science</h3>
+                </div>
+                <div class="category" data-category="history">
+                    <i class="fas fa-landmark"></i>
+                    <h3>History</h3>
+                </div>
+                <div class="category" data-category="geography">
+                    <i class="fas fa-globe-americas"></i>
+                    <h3>Geography</h3>
+                </div>
+                <div class="category" data-category="entertainment">
+                    <i class="fas fa-film"></i>
+                    <h3>Entertainment</h3>
+                </div>
+                <div class="category" data-category="sports">
+                    <i class="fas fa-basketball-ball"></i>
+                    <h3>Sports</h3>
+                </div>
+                <div class="category" data-category="technology">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Technology</h3>
+                </div>
+            </div>
+            
+            <div class="quiz-container" id="quiz-container" style="display: none;">
+                <div class="score-display">Score: <span id="score">0</span></div>
+                <div class="progress-bar">
+                    <div class="progress" id="progress" style="width: 0%"></div>
+                </div>
+                <div class="quiz-card" id="quiz-card">
+                    <!-- Front of card - Question -->
+                    <div class="quiz-front">
+                        <h2 class="question-text" id="question">Question will appear here</h2>
+                        <div class="options-container" id="options-container">
+                            <!-- Options will be inserted here by JavaScript -->
+                        </div>
+                        <div class="quiz-controls">
+                            <button class="btn-quiz" id="flip-btn" disabled>Submit Answer</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Back of card - Result/Next -->
+                    <div class="quiz-back">
+                        <h2 class="result-text" id="result-text">Result</h2>
+                        <p id="explanation">Explanation will appear here</p>
+                        <div class="quiz-controls">
+                            <button class="btn-quiz" id="next-btn">Next Question</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="results-container" style="display: none; text-align: center; padding: 2rem;">
+                <h2>Quiz Completed!</h2>
+                <p>Your final score: <span id="final-score">0</span> out of <span id="total-questions">0</span></p>
+                <p id="score-message"></p>
+                <button class="btn-quiz" id="restart-btn">Play Again</button>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
+
+<script src="assets/js/game.js"></script>
+<footer class="footer"><div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+<div>© 2025 QuizMania. All rights reserved.</div><div style="display:flex;gap:12px;align-items:center">
+<div style="display:flex;gap:12px;align-items:center"><span class="badge">Responsive • Age-gate</span></div>
+</div></footer><script src="assets/js/main.js"></script></body></html>

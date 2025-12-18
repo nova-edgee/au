@@ -1,0 +1,84 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle with Gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="questionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="lightbulbGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffecd2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fcb69f;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Main Background Circle -->
+  <circle cx="100" cy="100" r="95" fill="url(#bgGradient)" stroke="#4c63d2" stroke-width="4"/>
+  
+  <!-- Decorative Brain Pattern -->
+  <path d="M 60 80 Q 70 65 85 80 Q 90 70 100 80 Q 110 70 115 80 Q 125 65 140 80 Q 130 95 115 95 Q 110 105 100 95 Q 90 105 85 95 Q 70 95 60 80 Z" fill="rgba(255,255,255,0.1)" opacity="0.8"/>
+  
+  <!-- Central Question Mark -->
+  <g transform="translate(100,100)">
+    <!-- Question Mark Body -->
+    <path d="M -8 -25 Q -8 -35 0 -35 Q 8 -35 8 -25 Q 8 -15 0 -10 L 0 -5" 
+          fill="url(#questionGradient)" 
+          stroke="white" 
+          stroke-width="2" 
+          stroke-linejoin="round" 
+          stroke-linecap="round"/>
+    
+    <!-- Question Mark Dot -->
+    <circle cx="0" cy="5" r="3" fill="url(#questionGradient)" stroke="white" stroke-width="1"/>
+  </g>
+  
+  <!-- Lightbulb Icon (Top Right) -->
+  <g transform="translate(140,60)">
+    <ellipse cx="0" cy="-5" rx="8" ry="10" fill="url(#lightbulbGradient)" stroke="white" stroke-width="1.5"/>
+    <rect x="-6" y="2" width="12" height="3" rx="1" fill="#ffd89b"/>
+    <rect x="-4" y="6" width="8" height="2" rx="1" fill="#ffd89b"/>
+    <!-- Light rays -->
+    <path d="M -15 -8 L -12 -5 M 15 -8 L 12 -5 M 0 -20 L 0 -17 M -10 -16 L -8 -14 M 10 -16 L 8 -14" 
+          stroke="#ffd89b" 
+          stroke-width="2" 
+          stroke-linecap="round"/>
+  </g>
+  
+  <!-- Quiz Cards (Bottom Left) -->
+  <g transform="translate(60,140)">
+    <!-- Card 1 -->
+    <rect x="0" y="0" width="16" height="12" rx="2" fill="white" stroke="#667eea" stroke-width="1"/>
+    <circle cx="8" cy="6" r="2" fill="#667eea"/>
+    
+    <!-- Card 2 (offset) -->
+    <rect x="4" y="-4" width="16" height="12" rx="2" fill="white" stroke="#764ba2" stroke-width="1"/>
+    <rect x="8" y="0" width="8" height="1" fill="#764ba2"/>
+    <rect x="8" y="2" width="6" height="1" fill="#764ba2"/>
+    <rect x="8" y="4" width="4" height="1" fill="#764ba2"/>
+  </g>
+  
+  <!-- Trophy Icon (Top Left) -->
+  <g transform="translate(60,60)">
+    <ellipse cx="0" cy="-2" rx="6" ry="8" fill="#ffd700" stroke="white" stroke-width="1"/>
+    <rect x="-8" y="6" width="16" height="4" rx="2" fill="#ffd700"/>
+    <rect x="-2" y="10" width="4" height="6" fill="#e6c200"/>
+    <ellipse cx="-8" cy="2" rx="2" ry="3" fill="rgba(255,215,0,0.7)"/>
+    <ellipse cx="8" cy="2" rx="2" ry="3" fill="rgba(255,215,0,0.7)"/>
+  </g>
+  
+  <!-- Star Decorations -->
+  <g fill="white" opacity="0.7">
+    <polygon points="170,120 172,126 178,126 173,130 175,136 170,132 165,136 167,130 162,126 168,126" transform="scale(0.6)"/>
+    <polygon points="50,160 52,166 58,166 53,170 55,176 50,172 45,176 47,170 42,166 48,166" transform="scale(0.4)"/>
+    <polygon points="160,40 162,46 168,46 163,50 165,56 160,52 155,56 157,50 152,46 158,46" transform="scale(0.5)"/>
+  </g>
+  
+  <!-- Subtle Text Arc -->
+  <path id="textPath" d="M 40 100 A 60 60 0 0 1 160 100" fill="none" stroke="none"/>
+  <text font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="rgba(255,255,255,0.8)">
+    <textPath href="#textPath" startOffset="50%" text-anchor="middle">QUIZ • CHALLENGE • WIN</textPath>
+  </text>
+</svg>
